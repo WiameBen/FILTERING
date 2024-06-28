@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtering</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="images/s1.png" type="">
+    <style>
+        #map {
+            float: right;
+            height: 700px;
+            width: 94%;
+            border: 0px solid #ccc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 5);
+            
+        }
+
+        .sidebar {
+            width: 400px;
+            padding: 20px;
+            background-color:#0E275E;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow: auto;
+            border-right: 1px solid #e9e9e9;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar h2 {
+            color: white; /* Initial text color for the heading */
+        }
+
+        .sidebar:hover {
+            background-color: #e9e9e9;
+        }
+
+        .sidebar:hover h2 {
+            color: black; /* Heading text color on hover */
+        }
+
+        .content {
+            margin-left: 320px;
+            padding: 20px;
+            background-color: #e9e9e9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .criteria-group {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative; /* For the delete button positioning */
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 5px 6px;
+            font-size: 9px;
+        }
+
+        .delete-button:hover {
+            background-color: #cc0000;
+        }
+
+        .styled-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #1947AB;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .styled-button:hover {
+            background-color: #2566F7;
+            transform: translateY(-2px);
+        }
+
+        .styled-button:active {
+            background-color: #1e7e34;
+            transform: translateY(0);
+        }
+        
+        
+    </style>
+</head>
+<body class="sub_page">
+
+  <div class="hero_area">
+
+    <div class="hero_bg_box">
+      
+    </div>
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <span>
+              IAV - ICARDA
+            </span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  ">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Home </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="service.html"> Our Services</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="about.html"> Climatic Indices </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="filtering.html">Filtering<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="why.html">Heat and Drought Tolerance</a>
+              </li>
+
+
+              <form class="form-inline">
+                
+              </form>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+
+
+
+    <div class="sidebar">
+        <br/>
+        <br/>
+        <h2>Filtering </h2>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div id="criteria-container">
+            <div class="criteria-group">
+                <button class="delete-button" onclick="deleteCriteria(this)">X</button>
+                <label for="period">Choose a period:</label>
+                <select class="period">
+                    <option value="onset_heading">Onset - Heading</option>
+                    <option value="heading_flowerbeg">Heading - FlowerB</option>
+                    <option value="flowerbeg_flowerend">FlowerB - FlowerE</option>
+                    <option value="flowerend_grainfillbeg">FlowerE - GrainFillB</option>
+                    <option value="grainfillbeg_grainfillend">GrainFillB - GrainFillE</option>
+                </select>
+                <div style="margin-top: 20px;">
+                    <label for="index">Choose an index:</label>
+                    <select class="index">
+                        <!-- Index options will be dynamically populated here -->
+                    </select>
+                </div>
+                <div>
+                    <label for="range">Set the range:</label>
+                    <div class="range-slider"></div>
+                    <div class="range-values">
+                        <span class="min-value">0</span> - <span class="max-value">278</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="add-criteria" class="styled-button">Add Another Condition</button>
+        <button class="styled-button" onclick="filterData()">Filter</button>
+        <button id="download-csv" class="styled-button" style="margin-top: 10px;">Download CSV</button>
+    </div>
+    <div class="content">
+        <div id="map"></div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        function updateIndexOptions(criteriaGroup) {
+            let period = criteriaGroup.querySelector('.period').value;
+            let indexSelect = criteriaGroup.querySelector('.index');
+            indexSelect.innerHTML = ''; // Clear existing options
+            let indexOptions;
+            switch (period) {
+                case 'onset_heading':
+                    indexOptions = ['FD_1', 'ID_1','SU_1', 'DTmax35_1','TR_1','R5mm_1','R10mm_1','SDII_1','Rx5day_1','PRECtot_1','DTR_1','CDD_1', 'CWD_1'];
+                    break;
+                case 'heading_flowerbeg':
+                    indexOptions = ['FD_2', 'ID_2','SU_2', 'DTmax35_2','TR_2','R5mm_2','R10mm_2','SDII_2','Rx5day_2','PRECtot_2','DTR_2','CDD_2', 'CWD_2'];
+                    break;
+                case 'flowerbeg_flowerend':
+                    indexOptions = ['FD_3', 'ID_3','SU_3', 'DTmax35_3','TR_3','R5mm_3','R10mm_3','SDII_3','Rx5day_3','PRECtot_3','DTR_3','CDD_3', 'CWD_3'];
+                    break;
+                case 'flowerend_grainfillbeg':
+                    indexOptions = ['FD_4', 'ID_4','SU_4', 'DTmax35_4','TR_4','R5mm_4','R10mm_4','SDII_4','Rx5day_4','PRECtot_4','DTR_4','CDD_4', 'CWD_4'];
+                    break;
+                case 'grainfillbeg_grainfillend':
+                    indexOptions = ['FD_5', 'ID_5','SU_5', 'DTmax35_5','TR_5','R5mm_5','R10mm_5','SDII_5','Rx5day_5','PRECtot_5','DTR_5','CDD_5', 'CWD_5'];
+                    break;
+                default:
+                    indexOptions = [];
+            }
+            indexOptions.forEach(option => {
+                let optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                indexSelect.appendChild(optionElement);
+            });
+        }
+
+
+
+        function deleteCriteria(button) {
+            const criteriaGroup = button.parentElement;
+            criteriaGroup.remove();
+        }
+
+        function initializeSlider(criteriaGroup) {
+            const rangeSlider = criteriaGroup.querySelector('.range-slider');
+            noUiSlider.create(rangeSlider, {
+                start: [0, 278],
+                connect: true,
+                range: {
+                    'min': 0,
+                    'max': 278
+                }
+            });
+
+            rangeSlider.noUiSlider.on('update', function(values, handle) {
+                const minValueSpan = criteriaGroup.querySelector('.min-value');
+                const maxValueSpan = criteriaGroup.querySelector('.max-value');
+                minValueSpan.textContent = Math.round(values[0]);
+                maxValueSpan.textContent = Math.round(values[1]);
+            });
+        }
+
+        document.getElementById('add-criteria').addEventListener('click', addCriteria);
+
+        // Initialize the first set of index options and the first slider
+        document.querySelectorAll('.criteria-group').forEach(group => {
+            updateIndexOptions(group);
+            initializeSlider(group);
+        });
+
+        // Bind change event to the initial period dropdown
+        document.querySelector('.criteria-group .period').addEventListener('change', function() {
+            updateIndexOptions(document.querySelector('.criteria-group'));
+        });
+    </script>
+</body>
+</html>
