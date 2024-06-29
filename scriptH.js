@@ -1,6 +1,6 @@
 // Function to read JSON file
 async function fetchData() {
-    const response = await fetch('js/GD.json');
+    const response = await fetch('GD.json');
     const data = await response.json();
     return data;
 }
